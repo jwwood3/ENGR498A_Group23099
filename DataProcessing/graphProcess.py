@@ -8,8 +8,8 @@ import skimage
 imageExts = ["png","jpg","jpeg"]
 
 IMG_RES = 100
-COMPARE_RES = 30000
-SHIFT_RES = 4
+COMPARE_RES = 15000
+SHIFT_RES = 1
 XSCALE = 20
 YSCALE = 20
 ZSCALE = 6
@@ -126,7 +126,7 @@ def findMinFromCoords(x,y,z,filename,display=False,save=False,summary=False):
     zeroZ = []
     zeroY = []
     zeroX = []
-    offsets = np.linspace(0,1,SHIFT_RES)
+    offsets = [0] #np.linspace(0,1,SHIFT_RES)
     for xOffset in offsets:
         for yOffset in offsets:
             x4,y4,z4 = interpolateToGrid(xOffset,yOffset,XSCALE,YSCALE,x2,y2,z2)
