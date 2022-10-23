@@ -1,7 +1,7 @@
 const int NUM_MOTORS = 1;
 
 //Data transfer
-const byte numChars = 32;
+const int numChars = 2420;
 char receivedChars[numChars];
 char tempChars[numChars];
 float* receivedData;
@@ -104,7 +104,7 @@ void loop() {
 */
 void recvWithStartEndMarkers() {
     static boolean recvInProgress = false;
-    static byte ndx = 0;
+    static int ndx = 0;
     char startMarker = '<';
     char endMarker = '>';
     char rc;

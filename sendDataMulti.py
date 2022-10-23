@@ -2,6 +2,21 @@
 import serial
 import random
 import sys
+
+def send(dat):
+    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+    ser.reset_input_buffer()
+    ser.write("hi".encode('ascii'))
+    while True:
+        line = ser.readline().decode('utf-8',errors='ignore').rstrip()
+        if 'START' in line:
+            break
+    out = "<"+str(len(dat))+","
+    for i in dat:
+        out += f"{i:.3f}"+","
+    out += ">"
+    ser.write((out).encode('ascii'))
+
 if __name__ == '__main__':
     print(sys.argv[1])
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
