@@ -8,11 +8,11 @@ import skimage
 imageExts = ["png","jpg","jpeg"]
 
 IMG_RES = 100
-COMPARE_RES = 15000
-SHIFT_RES = 1
-XSCALE = 20
-YSCALE = 20
-ZSCALE = 6
+COMPARE_RES = 30000
+SHIFT_RES = 10
+XSCALE = 3
+YSCALE = 3
+ZSCALE = 3
 
 INTERP_STYLE = 'cubic'
 
@@ -126,7 +126,7 @@ def findMinFromCoords(x,y,z,filename,display=False,save=False,summary=False):
     zeroZ = []
     zeroY = []
     zeroX = []
-    offsets = [0] #np.linspace(0,1,SHIFT_RES)
+    offsets = np.linspace(0,1,SHIFT_RES)
     for xOffset in offsets:
         for yOffset in offsets:
             x4,y4,z4 = interpolateToGrid(xOffset,yOffset,XSCALE,YSCALE,x2,y2,z2)
@@ -237,9 +237,6 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         findMin(sys.argv[1],sys.argv[1].split(".")[-1].lower() in imageExts,"-d" in sys.argv,"-s" in sys.argv,"-g" in sys.argv,"-a" in sys.argv)
     else:
-        for i in range(11):
-            if i>5:
-                findMin("testImage"+str(i+1)+".jpeg",True,True,False,False,False)
-            else:
-                findMin("testImage"+str(i+1)+".png",True,True,False,True,False)
+        for i in range(3,5):
+            findMin("testImage"+str(i+1)+".png",True,True,False,True,False)
     displayDiffs("Best (Blue), Worst (Red), and Default (Green) Approximations")

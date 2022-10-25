@@ -94,7 +94,7 @@ void loop() {
   // Run motors up or down to reach the target position
   PID();
   motors();
-  debug();
+  //debug();
 }
 /*
 *
