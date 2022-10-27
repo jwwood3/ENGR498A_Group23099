@@ -1,4 +1,4 @@
-const int NUM_MOTORS = 1;
+const int NUM_MOTORS = 9;
 
 //Data transfer
 const int numChars = 2420;
@@ -23,7 +23,7 @@ int controlPin2s[NUM_MOTORS];
 //Motor Data
 int curPos[NUM_MOTORS];
 int MAX_PWM=255;
-int MIN_PWM=130;
+int MIN_PWM=180;
 
 //PID
 float error[NUM_MOTORS];
@@ -78,8 +78,13 @@ void loop() {
         Serial.println(target[i]);
       }
     } else if(l==3 && fEqual(receivedData[0],-1.0)){ // If 3 floats are given and the f1=-1,
-      int i = (int)(receivedData[1]+0.5);            // set target[f2]=f3
-      if(i<NUM_MOTORS){
+      int i = (int)(receivedData[1]);            // set target[f2]=f3
+      for(int j=0;j<l;j++){
+        Serial.print(j);
+        Serial.print(": ");
+        Serial.println(receivedData[j]);
+      }
+      if(i<NUM_MOTORS && i>=0){
         target[i]=receivedData[2];
         Serial.print("New Target for motor ");
         Serial.print(i);
@@ -94,7 +99,7 @@ void loop() {
   // Run motors up or down to reach the target position
   PID();
   motors();
-  //debug();
+  debug();
 }
 /*
 *
@@ -150,6 +155,10 @@ int parseData() {
   for(int i=0;i<packageSize;i++){
     strtokIndx = strtok(NULL,",");
     receivedData[i] = atof(strtokIndx);
+    Serial.print("received ");
+    Serial.print(i);
+    Serial.print(" as ");
+    Serial.println(receivedData[i]);    
   }
   return packageSize;
 }
@@ -213,8 +222,8 @@ void debug(){
   Serial.print("target: ");
   Serial.print(int(target[0]*conversion));
   Serial.print("\t|\tpos: ");
-  Serial.println(curPos[0]);
-  Serial.print("Error: ");
+  Serial.print(curPos[0]);
+  Serial.print("\t|\tError: ");
   Serial.print(error[0]);
   Serial.print("\t|\tDeriv: ");
   Serial.print(deriv[0]);
