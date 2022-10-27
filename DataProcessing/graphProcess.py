@@ -180,14 +180,14 @@ def convertImage(filename,gray=False):
     img = io.imread(filename)
     newImg = None
     if gray:
-        if filename.endswith(".png"):
+        if len(img[0][0])==4:
             newImg = skimage.color.rgb2gray(skimage.color.rgba2rgb(img))
-        else:
+        elif len(img[0][0])==3:
             newImg = skimage.color.rgb2gray(img)
     else:
-        if filename.endswith(".png"):
+        if len(img[0][0])==4:
             newImg = 650 - ((250 / 270) * skimage.color.rgb2hsv(skimage.color.rgba2rgb(img))[:,:,0])
-        else:
+        elif len(img[0][0])==3:
             newImg = 650 - ((250 / 270) * skimage.color.rgb2hsv(img)[:,:,0])
     newImg = skimage.transform.rescale(newImg, (IMG_RES/len(newImg),IMG_RES/len(newImg[0])), anti_aliasing=True)
     x = []
